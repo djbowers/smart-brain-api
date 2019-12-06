@@ -1,10 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const knex = require('knex');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+
+const db = knex({
+    client: 'pg',
+    connection: {
+        host : '127.0.0.1',
+        user : 'djbowers',
+        password : '',
+        database : 'smart-brain'
+    }
+})
 
 const database = {
     users: [
@@ -42,29 +53,28 @@ app.post('/signin', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { email, name, password } = req.body;
-    database.users.push({
-        id: '125',
-        name: name,
-        email: email,
-        password: password,
-        entries: 0,
-        joined: new Date()
-    })
-    res.json(database.users[database.users.length-1]);
+    db('users')
+        .returning('*')    
+        .insert({
+            email: email,
+            name: name,
+            joined: new Date(),
+        })
+        .then(user => {
+            res.json(user)
+        })
+        .catch(err => res.status(400).json(err))
 })
 
 app.get('/profile/:id', (req, res) => {
     const { id } = req.params;
-    let found = false;
-    database.users.forEach(user => {
-        if (user.id === id) {
-            found = true;
-            return res.json(user);
-        }
-    })
-    if (!found) {
-        res.status(404).json('no such user')
-    }
+    db.select('*').from('users').where({id})
+        .then(user => { 
+            user.length
+            ? res.json(user[0])
+            : res.status(400).json('Not found')
+        })
+        .catch(err => res.status(400).json('Error getting user'))
 })
 
 app.put('/image', (req, res) => {
