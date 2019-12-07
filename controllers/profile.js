@@ -1,5 +1,7 @@
 const handleProfileGet = (db) => (req, res) => {
     const { id } = req.params;
+    // TODO add input validation for id
+
     db.select('*').from('users').where({id})
         .then(user => { 
             user.length
