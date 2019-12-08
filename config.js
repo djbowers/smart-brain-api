@@ -1,8 +1,5 @@
 const CLARIFAI_API_KEY = process.env.CLARIFAI_API_KEY;
 const PORT = process.env.PORT;
+const DATABASE_URL = process.env.DATABASE_URL;
 
-if (PORT == null || PORT == "") {
-  PORT = 8000;
-}
-
-module.exports = { PORT, CLARIFAI_API_KEY }
+module.exports = { PORT, CLARIFAI_API_KEY, DATABASE_URL }

@@ -9,19 +9,18 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
-const { PORT } = require('./config');
+const { PORT, DATABASE_URL } = require('./config');
 
 const db = knex({
     client: 'pg',
     connection: {
-        host : '127.0.0.1',
-        user : 'djbowers',
-        password : '',
-        database : 'smart-brain'
+        connectionString: DATABASE_URL,
+        ssl: true,
     }
 })
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(cors());
 
@@ -32,6 +31,11 @@ app.get('/profile/:id', profile.handleProfileGet(db))
 app.put('/image', image.handleImage(db))
 app.post('/imageurl', (req, res) => { image.handleApiCall(req, res) })
 
-app.listen(PORT, () => {
-    console.log(`app is running on port ${PORT}`)
+let port = PORT;
+if (port == null || port == '') {
+    port = 3001;
+}
+
+app.listen(port, () => {
+    console.log(`app is running on port ${port}`)
 })
