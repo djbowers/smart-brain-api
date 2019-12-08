@@ -5,11 +5,12 @@
   "main": "script.js",
   "scripts": {
     "start": "node server.js",
-    "start-dev": "nodemon server.js"
+    "start-dev": "nodemon -r dotenv/config server.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "nodemon": "^2.0.1"
   },
   "dependencies": {
@@ -17,7 +18,6 @@
     "body-parser": "^1.19.0",
     "clarifai": "^2.9.1",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "knex": "^0.20.3",
     "pg": "^7.14.0"
