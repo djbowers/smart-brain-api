@@ -2,12 +2,12 @@
   "name": "smart-brain-api",
   "version": "1.0.0",
   "description": "",
-  "main": "script.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon -r dotenv/config server.js"
   },
-  "author": "",
+  "author": "DJ Bowers",
   "license": "ISC",
   "devDependencies": {
     "dotenv": "^8.2.0",
@@ -22,5 +22,8 @@
     "knex": "^0.20.3",
     "newrelic": "^6.2.0",
     "pg": "^7.14.0"
+  },
+  "engines": {
+    "node": "13.6.0"
   }
 }
